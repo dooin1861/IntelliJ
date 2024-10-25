@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data            // Getter Setter
@@ -33,5 +34,6 @@ public class Member {
 
     @Column
     private String confirmPassword;
+
 
 }

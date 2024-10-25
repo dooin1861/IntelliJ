@@ -2,10 +2,14 @@ package com.example.sb1024.controller;
 
 import com.example.sb1024.dto.BoardDto;
 import com.example.sb1024.dto.BoardFileDto;
+import com.example.sb1024.entity.Member;
 import com.example.sb1024.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,10 +55,14 @@ public class BoardController {
 	@RequestMapping("board/openBoardDetail.do")
 	public ModelAndView openBoardDetail(@RequestParam int boardIdx) throws Exception{
 		ModelAndView mv = new ModelAndView("board/boardDetail");
-		
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		String memberUname = userDetails.getUsername();
+
 		BoardDto board = boardService.selectBoardDetail(boardIdx);
 		mv.addObject("board", board);
-		
+
 		return mv;
 	}
 	

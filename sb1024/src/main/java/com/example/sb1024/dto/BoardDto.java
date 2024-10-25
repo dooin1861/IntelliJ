@@ -24,4 +24,6 @@ public class BoardDto {
 	private String updatedDatetime;
 	
 	private List<BoardFileDto> fileList;
+
+	private String writer;
 }

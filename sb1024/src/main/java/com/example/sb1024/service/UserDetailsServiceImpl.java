@@ -4,15 +4,14 @@ import com.example.sb1024.entity.Member;
 import com.example.sb1024.repository.MemberRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,11 +32,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { // 유저정보를 이 코드가 받음
         log.info("==============> 사용자: " + username);
-//        UserDetails user = User.withUsername("user")
-//                .password(passwordEncoder().encode("1234"))
-//                .roles("ADMIN")
-//                .build();
-//        return user;
+        if (username.equals("user")) {
+            UserDetails user = User.withUsername("user")
+                    .password(passwordEncoder.encode("1234")) // 필드로 접근
+                    .roles("ADMIN")
+                    .build();
+            return user;
+        }
 //        Member member = Member.builder() // 백도어.
 //                .id(1001L)
 //                .username("user")
@@ -47,20 +48,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        return toUserDetails(member);
 
         Optional<Member> member = memberRepository.findByUsername(username);
-//       if (!member.isPresent()) {
-//           System.out.println("여기");
-//           throw new UsernameNotFoundException(username);
-//        }
+       if (!member.isPresent()) {
+           System.out.println("로그인 실패");
+           throw new UsernameNotFoundException(username);
+        }
         return toUserDetails(member.get());
     }
 
     private UserDetails toUserDetails(Member member) {
         return User.builder()
-//                .username(member.getUsername())
-                .username(member.getEmail())
+                .username(member.getUsername())
+//                .username(member.getEmail())
                 .password(member.getPassword())
 //                .authorities(new SimpleGrantedAuthority(member.getRole().toString()))
                 .roles(member.getRole())
                 .build();
     }
+
+    public List<Member> findAllUsers() {
+        return memberRepository.findAll(); // 모든 사용자 반환
+    }
+
 }

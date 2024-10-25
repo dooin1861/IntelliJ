@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 //@RequestMapping("/sample/") // 기본 경로를 sample로 지정
 @Log4j2
@@ -26,7 +28,7 @@ public class SampleController {
     }
 
     @GetMapping("/sample/accessDenied")
-    public void accessDenied() {}
+    public void exAccessDenied() {}
 
     @GetMapping("/sample/all")
     public void exAll() {
@@ -34,8 +36,10 @@ public class SampleController {
     }
 
     @GetMapping("/sample/admin")
-    public void exAdmin() {
+    public void exAdmin(Model model) {
         log.info("exAdmin...........");
+        List<Member> members = userDetailsServiceImpl.findAllUsers(); // 모든 사용자 조회
+        model.addAttribute("members", members); // 모델에 사용자 리스트 추가
     }
 
     @GetMapping("/sample/member")
@@ -71,10 +75,5 @@ public class SampleController {
         // 추가적인 처리 로직이 필요하다면 여기에 추가
     }
 
-//    @GetMapping("/board/boardList")
-//    public void exBoardList(Model model) {
-//        log.info("exBoardList...........");
-//        List<Board> list = boardServiceImpl.selectBoardList(); // 서비스에서 데이터 가져오기
-//        model.addAttribute("list", list); // 모델에 데이터 추가
-//    }
+
 }
