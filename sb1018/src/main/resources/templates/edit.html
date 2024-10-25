@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>top page</title>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=UTF-8" />
+  <style>
+    h1 { font-size:18pt; font-weight:bold; color:gray; }
+    body { font-size:13pt; color:gray; margin:5px 25px; }
+    tr {margin:5px}
+    th {padding:5px; color:white; background: darkgray;}
+    td {padding:5px; color:black; background: #e0e0ff;}
+  </style>
+</head>
+<body>
+
+<h1 th:text="#{mainForm}">hello</h1>
+<table>
+  <form method="post" action="/edit" th:object="${emp}">
+    <input type="hidden" name="empno" th:value="*{emp.empno}" /> <!-- 사원번호 -->
+    <tr>
+      <td><label for="ename">사원이름</label></td>
+      <td><input type="text" name="ename" th:value="*{ename}"/></td>
+    </tr>
+    <tr>
+      <td><label for="job">직급</label></td>
+      <td><input type="text" name="job" th:value="*{job}"/></td>
+    </tr>
+    <tr>
+      <td><label for="mgr">상사</label></td>
+      <td><input type="text" name="mgr" th:value="*{mgr}"/></td>
+    </tr>
+    <tr>
+      <td><label for="hiredate">입사일</label></td>
+      <td><input type="date" name="hiredate" th:value="*{hiredate}"/></td>
+    </tr>
+    <tr>
+      <td><label for="sal">급여</label></td>
+      <td><input type="text" name="sal" th:value="*{sal}"/></td>
+    </tr>
+    <tr>
+      <td><label for="comm">보너스</label></td>
+      <td><input type="text" name="comm" th:value="*{comm}"/></td>
+    </tr>
+    <tr>
+      <td><label for="deptno">부서번호</label></td>
+      <td><input type="text" name="deptno" th:value="*{deptno}"/></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" value="수정"/></td>
+    </tr>
+  </form>
+</table>
+</hr>
+<!--<table>-->
+<!--  <tr><td>ID</td><th>이름</th></tr>-->
+<!--  <tr th:each="obj : ${datalist}">-->
+<!--    <td th:text="${obj.id}"></td>-->
+<!--    <td th:text="${obj.name}"></td>-->
+<!--  </tr>-->
+<!--</table>-->
+</body>
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.sb1011.mapper.CommentMapper">
+
+    <select id="selectCommentsByBoardId" parameterType="int" resultType="com.example.sb1011.dto.CommentDto">
+        <![CDATA[
+        SELECT
+            comment_id,
+            board_idx,
+            comment_text,
+            created_at
+        FROM
+            t_comment
+        WHERE
+            board_idx = #{boardIdx}
+        ORDER BY created_at ASC;
+        ]]>
+    </select>
+
+    <insert id="insertComment" parameterType="com.example.sb1011.dto.CommentDto">
+        <![CDATA[
+        INSERT INTO t_comment (board_idx, comment_text, created_at)
+        VALUES (#{boardIdx}, #{commentText}, NOW())
+        ]]>
+    </insert>
+
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM t_comment WHERE comment_id = #{commentId}
+    </delete>
+
+    <update id="updateComment" parameterType="com.example.sb1011.dto.CommentDto">
+        <![CDATA[
+        Update t_comment
+        set comment_text = #{commentText}, created_at = NOW()
+        where comment_id = #{commentId}
+        ]]>
+    </update>
+    <!-- 추가적인 메서드가 필요할 경우 여기에 작성 -->
+</mapper>

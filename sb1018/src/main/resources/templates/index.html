@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>top page</title>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=UTF-8" />
+  <style>
+    h1 { font-size:18pt; font-weight:bold; color:gray; }
+    body { font-size:13pt; color:gray; margin:5px 25px; }
+    tr {margin:5px}
+    th {padding:5px; color:white; background: darkgray;}
+    td {padding:5px; color:black; background: #e0e0ff;}
+  </style>
+</head>
+<body>
+<h1 th:text="#{mainForm}">hello</h1>
+<table>
+  <form method="post" action="/edit" th:object="${emp}">
+    <tr><td><label for="empno">사원번호</label></td>
+      <td><input type="text" name="empno" th:value="*{empno}" readonly /></td></tr>
+    <tr><td><label for="ename">사원이름</label></td>
+      <td><input type="text" name="ename" th:value="*{ename}"/></td></tr>
+    <tr><td><label for="job">직급</label></td>
+      <td><input type="text" name="job" th:value="*{job}"/></td></tr>
+    <tr><td><label for="mgr">상사</label></td>
+      <td><input type="text" name="mgr" th:value="*{mgr}"/></td></tr>
+    <tr><td><label for="hiredate">입사일</label></td>
+      <td><input type="date" name="hiredate" th:value="*{hiredate}"/></td></tr>
+    <tr><td><label for="sal">급여</label></td>
+      <td><input type="text" name="sal" th:value="*{sal}"/></td></tr>
+    <tr><td><label for="comm">보너스</label></td>
+      <td><input type="text" name="comm" th:value="*{comm}"/></td></tr>
+    <tr><td><label for="deptno">부서번호</label></td>
+      <td><input type="text" name="deptno" th:value="*{deptno}"/></td></tr>
+    <tr><td></td><td><input type="submit" value="저장" /></td></tr>
+  </form>
+</table>
+
+<hr />
+
+<table>
+  <tr>
+    <th>사원번호</th>
+    <th>이름</th>
+    <th>직급</th>
+    <th>상사</th>
+    <th>입사일</th>
+    <th>급여</th>
+    <th>보너스</th>
+    <th>부서번호</th>
+    <th>수정</th>
+    <th>삭제</th>
+  </tr>
+  <tr th:each="e : ${employees}">
+    <td th:text="${e.empno}"></td>
+    <td th:text="${e.ename}"></td>
+    <td th:text="${e.job}"></td>
+    <td th:text="${e.mgr}"></td>
+    <td th:text="${e.hiredate}"></td>
+    <td th:text="${e.sal}"></td>
+    <td th:text="${e.comm}"></td>
+    <td th:text="${e.deptno}"></td>
+    <td>
+      <form th:action="@{/edit/{empno}(empno=${e.empno})}" method="get">
+        <button type="submit"> 수정 </button>
+      </form>
+    </td>
+    <td>
+      <form th:action="@{/delete(empno=${e.empno})}" method="post">
+        <button type="submit"> 삭제 </button>
+      </form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

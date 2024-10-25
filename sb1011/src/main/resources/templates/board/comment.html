@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>댓글 작성</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+  <h2>댓글 작성</h2>
+  <form id="commentForm" method="post" action="/board/insertComment.do">
+    <input type="hidden" name="boardIdx" th:value="${board.boardIdx}"/>
+    <textarea name="comment" placeholder="댓글을 입력하세요" required></textarea>
+    <input type="submit" value="댓글 달기" class="btn"/>
+  </form>
+
+  <h3>댓글 목록</h3>
+  <ul>
+    <li th:each="comment : ${comments}">
+      <p th:text="${comment.comment_text}"></p>
+      <span th:text="${#dates.format(comment.created_at, 'yyyy-MM-dd HH:mm')}"></span>
+    </li>
+  </ul>
+
+  <a href="/board/openBoardDetail.do?boardIdx=${board.boardIdx}" class="btn">돌아가기</a>
+</div>
+</body>
+</html>
