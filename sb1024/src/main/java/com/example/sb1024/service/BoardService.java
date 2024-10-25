@@ -1,17 +1,22 @@
 package com.example.sb1024.service;
 
-import com.example.sb1024.entity.Board;
+import com.example.sb1024.dto.BoardDto;
+import com.example.sb1024.dto.BoardFileDto;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
-
 public interface BoardService {
-    // 게시글 목록 조회
+	
+	List<BoardDto> selectBoardList() throws Exception;
+	
+	void insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception;
 
-    List<Board> selectBoardList();
+	BoardDto selectBoardDetail(int boardIdx) throws Exception;
 
-    Board selectBoardDetail(Integer boardIdx); // 게시글 상세 조회
-    void insertBoard(Board board); // 게시글 삽입
-    void updateBoard(Board board); // 게시글 수정
-    void deleteBoard(Integer boardIdx); // 게시글 삭제
+	void updateBoard(BoardDto board) throws Exception;
+
+	void deleteBoard(int boardIdx) throws Exception;
+
+	BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception;
 }

@@ -1,4 +1,4 @@
-package com.example.sb1024.entity;
+package com.example.sb1024.dto;
 
 import lombok.Data;
 

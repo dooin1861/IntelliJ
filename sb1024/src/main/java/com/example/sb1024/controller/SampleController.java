@@ -1,19 +1,14 @@
 package com.example.sb1024.controller;
 
-import com.example.sb1024.entity.Board;
 import com.example.sb1024.entity.Member;
-import com.example.sb1024.service.BoardService;
 import com.example.sb1024.service.BoardServiceImpl;
 import com.example.sb1024.service.UserDetailsServiceImpl;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 //@RequestMapping("/sample/") // 기본 경로를 sample로 지정
@@ -76,10 +71,10 @@ public class SampleController {
         // 추가적인 처리 로직이 필요하다면 여기에 추가
     }
 
-    @GetMapping("/board/boardList")
-    public void exBoardList(Model model) {
-        log.info("exBoardList...........");
-        List<Board> list = boardServiceImpl.selectBoardList(); // 서비스에서 데이터 가져오기
-        model.addAttribute("list", list); // 모델에 데이터 추가
-    }
+//    @GetMapping("/board/boardList")
+//    public void exBoardList(Model model) {
+//        log.info("exBoardList...........");
+//        List<Board> list = boardServiceImpl.selectBoardList(); // 서비스에서 데이터 가져오기
+//        model.addAttribute("list", list); // 모델에 데이터 추가
+//    }
 }

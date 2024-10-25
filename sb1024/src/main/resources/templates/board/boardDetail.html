@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http//www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="content">
 <head>
 	<meta charset="UTF-8">
 	<title>게시글 상세 화면</title>
@@ -9,6 +13,7 @@
 	<div class="container">
 		<h2>게시글 상세 화면</h2>
 	    <form id="frm" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 	    	<table class="board_detail">
 				<colgroup>
 					<col width="15%"/>

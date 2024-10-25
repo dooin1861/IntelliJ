@@ -1,6 +1,6 @@
 package com.example.sb1024.common;
 
-import com.example.sb1024.entity.BoardFileDto;
+import com.example.sb1024.dto.BoardFileDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;

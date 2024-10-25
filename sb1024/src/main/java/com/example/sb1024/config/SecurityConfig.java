@@ -41,12 +41,14 @@ public class SecurityConfig {
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/sample/all").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/board/**").permitAll()
 //                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/sample/admin").hasRole("ADMIN") // 권한이 ADMIN인 유저만 허용, 인증은 됐으나 인가가 안됨
                 .anyRequest().authenticated();    // 요청을 처리하기 위해 사용자의 인증 요구
         http.formLogin();       // 기본 로그인 폼
         http.csrf().disable();
         http.logout();
+
         http.exceptionHandling().accessDeniedPage("/sample/accessDenied"); // 접근 권한이 없는 페이지에 접근할 때 accessDenied로
         http.csrf()
                 .ignoringAntMatchers("/h2-console/**")

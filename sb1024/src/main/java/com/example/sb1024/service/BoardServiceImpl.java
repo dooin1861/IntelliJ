@@ -1,40 +1,64 @@
 package com.example.sb1024.service;
 
-import com.example.sb1024.entity.Board;
-import com.example.sb1024.repository.BoardRepository; // BoardRepository는 나중에 작성할 예정
+
+import com.example.sb1024.common.FileUtils;
+import com.example.sb1024.dto.BoardDto;
+import com.example.sb1024.dto.BoardFileDto;
+import com.example.sb1024.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
 @Service
-public class BoardServiceImpl implements BoardService {
+public class BoardServiceImpl implements BoardService{
+	
+	@Autowired
+	private BoardMapper boardMapper;
+	
+	@Autowired
+	private FileUtils fileUtils;
+	
+	@Override
+	public List<BoardDto> selectBoardList() throws Exception {
+		return boardMapper.selectBoardList();
+	}
+	
+	@Override
+	public void insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+		boardMapper.insertBoard(board);
+		List<BoardFileDto> list = fileUtils.parseFileInfo(board.getBoardIdx(), multipartHttpServletRequest);
+		if(CollectionUtils.isEmpty(list) == false){
+			boardMapper.insertBoardFileList(list);
+		}
+	}
 
-    @Autowired
-    private BoardRepository boardRepository; // Repository 주입
+	@Override
+	public BoardDto selectBoardDetail(int boardIdx) throws Exception{
+		BoardDto board = boardMapper.selectBoardDetail(boardIdx);
+		List<BoardFileDto> fileList = boardMapper.selectBoardFileList(boardIdx);
+		board.setFileList(fileList);
+		
+		boardMapper.updateHitCount(boardIdx);
+		
+		return board;
+	}
+	
+	@Override
+	public void updateBoard(BoardDto board) throws Exception {
+		boardMapper.updateBoard(board);
+	}
 
-    @Override
-    public List<Board> selectBoardList() {
-        return boardRepository.findAll(); // 모든 게시글 조회
-    }
+	@Override
+	public void deleteBoard(int boardIdx) throws Exception {
+		boardMapper.deleteBoard(boardIdx);
+	}
+	
+	@Override
+	public BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception {
+		return boardMapper.selectBoardFileInformation(idx, boardIdx);
+	}
+}	
 
-    @Override
-    public Board selectBoardDetail(Integer boardIdx) {
-        return boardRepository.findById(boardIdx).orElse(null); // 게시글 상세 조회
-    }
-
-    @Override
-    public void insertBoard(Board board) {
-        boardRepository.save(board); // 게시글 삽입
-    }
-
-    @Override
-    public void updateBoard(Board board) {
-        boardRepository.save(board); // 게시글 수정
-    }
-
-    @Override
-    public void deleteBoard(Integer boardIdx) {
-        boardRepository.deleteById(boardIdx); // 게시글 삭제
-    }
-}
