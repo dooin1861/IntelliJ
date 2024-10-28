@@ -1,5 +1,6 @@
-package com.example.sb1024.entity;
+package edu.du.sb1024.entity;
 
+import edu.du.sb1024.spring.WrongIdPasswordException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Data            // Getter Setter
@@ -14,27 +16,29 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor    // 모든 컬럼 생성자 생성
 @NoArgsConstructor    // 기본 생성자
 @Table(name = "member")
-@NotBlank
 public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto_increment, 자동 id 생성
+    @Id    // 내가 PK
+    @GeneratedValue(strategy = GenerationType.IDENTITY)	// 자동 id 생성
     private Long id;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String username;
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private String role = "USER";
+    private String role;
 
-    @Column
-    private String confirmPassword;
+    private LocalDateTime regdate;
 
-
+    public void changePassword(String oldPassword, String newPassword) {
+        if (!password.equals(oldPassword))
+            throw new WrongIdPasswordException();
+        this.password = newPassword;
+    }
 }
