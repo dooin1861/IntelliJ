@@ -1,4 +1,4 @@
-package com.example.sb1029.entity;
+package edu.du.sb1024.notice.entity;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

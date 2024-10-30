@@ -1,10 +1,13 @@
 package com.example.sb1029.controller;
 
+import com.example.sb1029.entity.Notice;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/notice/")
@@ -12,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class NoticeController {
 
     @GetMapping("/noticeList")
-    public String showNoticeList(Model model) {
-        // 필요한 데이터 추가
-        // model.addAttribute("notices", noticeService.getAllNotices());
-        return "notice/noticeList"; // templates/notice/noticeList.html로 이동
+    public void showNoticeList(Model model) {
+        List<Notice> notices = noticeService.getAllNotices(); // 예시로 서비스에서 리스트를 가져온다고 가정
+        model.addAttribute("list", notices);
+        return "notice/noticeList";
     }
 
 }
