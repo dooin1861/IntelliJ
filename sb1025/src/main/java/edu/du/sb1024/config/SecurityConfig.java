@@ -57,6 +57,7 @@ public class SecurityConfig {
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/board/**").permitAll()
                 .antMatchers("/images/**").permitAll()
+                .antMatchers("/notice/**").permitAll()
                 .antMatchers("/sample/admin").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
