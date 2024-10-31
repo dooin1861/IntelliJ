@@ -1,12 +1,13 @@
 package com.example.sb1031.order;
 
+import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table (name = "orders")
-@ToString
+@Data
 public class Order {
 
     @Id
@@ -15,37 +16,6 @@ public class Order {
     private String productName;
     private int quantity;
     private double price;
+    private Long orderId;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
 }
