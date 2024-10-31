@@ -6,10 +6,14 @@
 <div layout:fragment="content">
   <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{change.pwd.title}">Change Password</title>
   </head>
   <body>
-  <h1>For Admin</h1>
+  <p th:text="#{change.pwd.done}">Password changed successfully.</p>
+  <p>
+    <a th:href="@{/main}">
+      [<span th:text="#{go.main}">Go to main</span>]
+    </a>
+  </p>
   </body>
-</div>
 </html>
