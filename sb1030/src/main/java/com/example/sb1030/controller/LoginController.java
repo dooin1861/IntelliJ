@@ -20,13 +20,13 @@ public class LoginController {
 	private AuthService authService;
 
 	@GetMapping
-	public String form(edu.du.sb1030.controller.LoginCommand loginCommand) {
+	public String form(com.example.sb1030.controller.LoginCommand loginCommand) {
 		System.out.println("-----------------여기");
 		return "/login/loginForm";
 	}
 
 	@PostMapping
-	public String submit(edu.du.sb1030.controller.LoginCommand loginCommand, Errors errors, HttpSession session) {
+	public String submit(com.example.sb1030.controller.LoginCommand loginCommand, Errors errors, HttpSession session) {
 
 		new LoginCommandValidator().validate(loginCommand, errors);
 		if (errors.hasErrors()) {

@@ -1,4 +1,4 @@
-package edu.du.sb1030.controller;
+package com.example.sb1030.controller;
 
 public class LoginCommand {
 

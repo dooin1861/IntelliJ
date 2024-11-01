@@ -33,7 +33,7 @@ public class MemberDao {
 								rs.getString("EMAIL"),
 								rs.getString("PASSWORD"),
 								rs.getString("NAME"),
-								rs.getTimestamp("REGDATE").toLocalDateTime());
+								rs.getTimestamp("REGISTER_DATETIME").toLocalDateTime());
 						member.setId(rs.getLong("ID"));
 						return member;
 					}
@@ -50,14 +50,15 @@ public class MemberDao {
 					throws SQLException {
 				// 파라미터로 전달받은 Connection을 이용해서 PreparedStatement 생성
 				PreparedStatement pstmt = con.prepareStatement(
-						"insert into MEMBER (EMAIL, PASSWORD, NAME, REGDATE) " +
-						"values (?, ?, ?, ?)",
+						"insert into MEMBER (EMAIL, PASSWORD, NAME, ROLE, REGISTER_DATETIME) " +
+						"values (?, ?, ?, ?, ?)",
 						new String[] { "ID" });
 				// 인덱스 파라미터 값 설정
 				pstmt.setString(1, member.getEmail());
 				pstmt.setString(2, member.getPassword());
 				pstmt.setString(3, member.getName());
-				pstmt.setTimestamp(4,
+				pstmt.setString(4, member.getRole());
+				pstmt.setTimestamp(5,
 						Timestamp.valueOf(member.getRegisterDateTime()));
 				// 생성한 PreparedStatement 객체 리턴
 				return pstmt;
@@ -80,7 +81,9 @@ public class MemberDao {
 							rs.getString("EMAIL"),
 							rs.getString("PASSWORD"),
 							rs.getString("NAME"),
-							rs.getTimestamp("REGDATE").toLocalDateTime());
+
+							rs.getTimestamp("REGISTER_DATETIME").toLocalDateTime());
+
 					member.setId(rs.getLong("ID"));
 					return member;
 				});

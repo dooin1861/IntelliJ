@@ -8,7 +8,7 @@ public class LoginCommandValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return edu.du.sb1030.controller.LoginCommand.class.isAssignableFrom(clazz);
+		return com.example.sb1030.controller.LoginCommand.class.isAssignableFrom(clazz);
 	}
 
 	@Override
