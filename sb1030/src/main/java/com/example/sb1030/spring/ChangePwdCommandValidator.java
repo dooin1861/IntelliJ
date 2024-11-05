@@ -1,4 +1,4 @@
-package com.example.sb1030.controller;
+package com.example.sb1030.spring;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

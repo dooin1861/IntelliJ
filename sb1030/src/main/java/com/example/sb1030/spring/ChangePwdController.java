@@ -1,10 +1,7 @@
-package com.example.sb1030.controller;
+package com.example.sb1030.spring;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.sb1030.spring.AuthInfo;
-import com.example.sb1030.spring.ChangePasswordService;
-import com.example.sb1030.spring.WrongIdPasswordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
