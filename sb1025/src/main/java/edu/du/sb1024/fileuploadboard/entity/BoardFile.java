@@ -20,7 +20,7 @@ public class BoardFile {
 
 	private String creatorId;
 	private LocalDateTime createdDatetime;
-	private String updatorId;
+	private String updaterId;
 	private LocalDateTime updatedDatetime;
 
 	@Column(columnDefinition = "varchar(2) default 'N'")

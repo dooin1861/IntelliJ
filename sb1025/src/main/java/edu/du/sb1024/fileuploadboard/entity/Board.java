@@ -19,7 +19,7 @@ public class Board {
 	private Integer boardIdx;
 	
 	private String title;
-	
+
 	private String contents;
 
 	@ColumnDefault("0") //default 0
@@ -35,4 +35,5 @@ public class Board {
 
 	@Column(columnDefinition = "varchar(2) default 'N'")
 	private String deletedYn;
+
 }

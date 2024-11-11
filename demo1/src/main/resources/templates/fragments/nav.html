@@ -5,10 +5,16 @@
             <div class="header--top">
                 <ul>
                     <li class="material--li"><span class="material-symbols-outlined">account_circle</span>
-                    <li>박성희님 (230001)
+                        <span th:text="${session.username != null && session.username != 'Guest' ? session.username + '&nbsp;님, 로그인 중' : 'Guest로 로그인 중'}"></span></li>
                     <li style="margin: 0 15px;">ㅣ
                     <li class="material--li"><span style="color: #9BD2EC;" class="material-symbols-outlined">logout</span>
-                    <li><a href="/logout">로그아웃</a>
+
+                    <li>
+                        <a th:href="@{${session.username == null || session.username == 'Guest' ? 'sample/login' : 'sample/logout'}}">
+                        <span th:text="${session.username == null || session.username == 'Guest' ? '로그인' : '로그아웃'}"></span>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
 
@@ -16,11 +22,13 @@
                 <a href="/"><img class="logo" alt="" src="/images/logo.png"></a>
                 <!-- userRole에 따라 메뉴 다르게 표시 -->
                 <ul>
-                    <li><a href="/">홈</a>
-                    <li><a href="/info/staff">MY</a>
-                    <li><a href="/user/studentList">학사관리</a>
-                    <li><a href="/admin/college">등록</a>
-                    <li><a href="/notice">학사정보</a>
+<!--                    로고누르면 홈으로 이동하게 -->
+                    <li><a href="/products">Products</a>
+                    <li><a href="/artists">Artists</a>
+                    <li><a href="/inside">Inside PRS</a>
+                    <li><a href="/support">Support</a>
+                    <li><a href="/dealers">Dealers</a>
+                    <li><a href="/board/openBoardList.do?page=0">Forum</a></li>
                 </ul>
             </nav>
         </header>
