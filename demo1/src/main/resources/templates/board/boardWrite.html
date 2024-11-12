@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>PRS Guitar</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+<link rel="stylesheet" href="/css/forum.css">
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body onLoad="javascript:pop()">
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+	<div class="container">
+	    <h2>게시글 등록</h2>
+		<form id="frm" name="frm" method="post" th:action="@{/board/insertBoard.do}" enctype="multipart/form-data">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+	    	<table class="board_detail">
+	    		<tr>
+	    			<td>제목</td>
+	    			<td><input type="text" id="title" name="title"/></td>
+	    		</tr>
+	    		<tr>
+	    			<td colspan="2">
+		    			<textarea id="contents" name="contents"></textarea>
+	    			</td>
+	    		</tr>
+	    	</table>
+	    	<input type="file" id="files" name="files" multiple="multiple">
+	    	<input type="submit" id="submit" value="저장" class="btn">
+	    </form>
+    </div>
+</body>
+</html>
