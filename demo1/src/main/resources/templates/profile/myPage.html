@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRS Guitar</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/myPage.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body onLoad="javascript:pop()"/>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- 프로필 사진 -->
+      <div class="profile-picture text-center">
+        <img src="/images/PRS.jpg" alt="Profile Picture" class="img-fluid rounded-circle" />
+        <h5 class="mt-2" th:text="${session.username}">Username</h5>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <h2>Your Profile</h2>
+
+      <!-- 사용자 정보 (테이블로 구성) -->
+      <div class="profile-info-table">
+        <table class="table table-bordered">
+          <tbody>
+          <tr>
+            <td>Email</td>
+            <td th:text="${session.email}"></td>
+          </tr>
+          <tr>
+            <td>Role</td>
+            <td th:text="${session.role}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 계정 설정 -->
+      <div class="account-settings mt-4">
+        <h4>Account Settings</h4>
+        <ul>
+          <li><a th:href="@{/edit/changePwdForm}">Change Password</a></li>
+        </ul>
+      </div>
+
+      <!-- 로그아웃 버튼 -->
+      <div class="logout mt-4">
+        <a th:href="@{/sample/logout}" class="btn btn-danger">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

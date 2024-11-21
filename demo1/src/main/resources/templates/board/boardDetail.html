@@ -16,7 +16,6 @@
 					<col width="15%"/>
 					<col width="35%"/>
 				</colgroup>
-				<caption>게시글 상세내용</caption>
 				<tbody>
 					<tr>
 						<th scope="row">글 번호</th>
@@ -26,17 +25,17 @@
 					</tr>
 					<tr>
 						<th scope="row">작성자</th>
-						<td th:text="${board.creatorId }"></td>
+						<td th:text="${board.creatorId}"></td>
 						<th scope="row">작성일</th>
 						<td th:text="${board.createdDatetime }"></td>
 					</tr>
 					<tr>
 						<th scope="row">제목</th>
-						<td colspan="3"><input type="text" id="title" name="title" th:value="${board.title }"/></td>
+						<td colspan="3"><input type="text" id="title" name="title" th:value="${board.title }" required /></td>
 					</tr>
 					<tr>
 						<td colspan="4" class="view_text">
-							<textarea title="내용" id="contents" name="contents" th:text="${board.contents }"></textarea>
+							<textarea title="내용" id="contents" name="contents" th:text="${board.contents }" required ></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -44,15 +43,21 @@
 			<input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx }">
 		</form>
 
-		<a href="#this" id="list" class="btn">목록으로</a>
-		<a href="#this" id="edit" class="btn">수정하기</a>
-		<a href="#this" id="delete" class="btn">삭제하기</a>
+		<a href="#" id="list" class="btn">목록으로</a>
+		<a href="#" id="edit" class="btn">수정하기</a>
+		<a href="#" id="delete" class="btn">삭제하기</a>
 
 		<div class="file_list">
 			<th:block th:each="list : ${board.fileList}">
 				<p>
-					<a th:href="@{/board/downloadBoardFile.do(idx=${list.idx}, boardIdx=${list.boardIdx})}" th:text="|${list.originalFileName} (${list.fileSize} kb) [${list.storedFilePath}]|"></a>
-					<img th:src="${list.storedFilePath}" />
+					<img th:src="${list.storedFilePath}" width="1000px"/>
+					<a th:href="@{/board/downloadBoardFile.do(idx=${list.idx}, boardIdx=${list.boardIdx})}"
+					   download="${list.originalFileName}"
+					   th:text="|${list.originalFileName}|"
+					   class="download-link">
+						클릭 시 이미지 다운로드
+						<!--					   th:text="|${list.originalFileName} (${list.fileSize} kb) [${list.storedFilePath}]|"></a>-->
+					</a>
 				</p>
 			</th:block>
 <!--			<a th:each="list : ${board.fileList}" th:href="@{/board/downloadBoardFile.do(idx=${list.idx}, boardIdx=${list.boardIdx})}" th:text="|${list.originalFileName} (${list.fileSize} kb)|">-->
@@ -60,43 +65,98 @@
 
 		</div>
 
+		<div class="comment_section">
+			<h3>댓글</h3>
+			<form th:action="@{/board/{boardIdx}/comments(boardIdx=${board.boardIdx})}" method="post">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<input type="hidden" name="boardIdx" th:value="${board.boardIdx}" />
+
+				<!-- 댓글 작성 테이블 -->
+				<table class="comment_table">
+					<tr>
+						<td><label for="content">댓글 내용</label></td>
+						<td><textarea name="content" id="content" placeholder="댓글을 입력하세요" required></textarea></td>
+					</tr>
+					<tr>
+						<td><label for="creatorId">작성자 이름</label></td>
+						<td><input type="text" name="creatorId" id="creatorId" placeholder="작성자 이름" th:value="${session.username != null ? session.username : 'Guest'}" required readonly/></td>
+					</tr>
+					<tr>
+						<td colspan="2" style="text-align:center;">
+							<button type="submit">댓글 작성</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<!-- 댓글 목록 -->
+		<div class="comments_list">
+			<h4 class="comments_title">댓글 목록</h4>
+			<ul class="comments_ul">
+				<!-- 댓글이 없으면 '댓글이 없습니다' 표시 -->
+				<th:block th:if="${#lists.isEmpty(comments)}">
+					<li class="no_comments">댓글이 없습니다.</li>
+				</th:block>
+
+				<!-- 댓글이 있을 때 댓글 내용 표시 -->
+				<th:block th:each="comment : ${comments}">
+					<li class="comment_item">
+						<strong class="comment_creator">
+							<span th:if="${comment.creatorId != null}" th:text="${comment.creatorId}">작성자</span>
+							<span th:if="${comment.creatorId == null}" th:text="'Guest'">작성자</span>
+						</strong>
+						<span class="comment_content" th:text="${comment.content}">내용</span>
+						<span class="comment_date" th:text="${#temporals.format(comment.createdDatetime, 'yyyy-MM-dd HH:mm')}">작성일</span>
+						<form th:action="@{/board/comments/{commentIdx}/delete(commentIdx=${comment.commentIdx})}" method="post" class="delete_form">
+							<input type="hidden" name="boardIdx" th:value="${board.boardIdx}" class="board_idx_hidden"/>
+							<button type="submit" class="delete_button">삭제</button>
+						</form>
+					</li>
+				</th:block>
+			</ul>
+		</div>
+
+
 	</div>
 
-	<!-- CSRF Token -->
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			var csrfParameter = $("#csrf").attr("name");
-			var csrfToken = $("#csrf").val();
 
-			$("#list").on("click", function(){
-				location.href = "/board/openBoardList.do";
-			});
-			
-			$("#edit").on("click", function(){
-				var frm = $("#frm")[0];
-				frm.action = "/board/updateBoard.do";
-				$('<input>').attr({
-					type: 'hidden',
-					name: csrfParameter,
-					value: csrfToken
-				}).appendTo(frm);
-				frm.submit();
-			});
-			
-			$("#delete").on("click", function(){
-				var frm = $("#frm")[0];
-				frm.action = "/board/deleteBoard.do";
-				$('<input>').attr({
-					type: 'hidden',
-					name: csrfParameter,
-					value: csrfToken
-				}).appendTo(frm);
-				frm.submit();
-			});
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var csrfParameter = $("#csrf").attr("name");
+		var csrfToken = $("#csrf").val();
+
+		$("#list").on("click", function(){
+			location.href = "/board/openBoardList.do";
 		});
-	</script>
+
+		$("#edit").on("click", function(){
+			var frm = $("#frm")[0];
+			frm.action = "/board/updateBoard.do";
+			$('<input>').attr({
+				type: 'hidden',
+				name: csrfParameter,
+				value: csrfToken
+			}).appendTo(frm);
+			frm.submit();
+		});
+
+		$("#delete").on("click", function(){
+			var frm = $("#frm")[0];
+			frm.action = "/board/deleteBoard.do";
+			$('<input>').attr({
+				type: 'hidden',
+				name: csrfParameter,
+				value: csrfToken
+			}).appendTo(frm);
+			frm.submit();
+		});
+	});
+</script>
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
 </body>
 </html>

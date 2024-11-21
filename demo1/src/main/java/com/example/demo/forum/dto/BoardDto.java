@@ -18,8 +18,6 @@ public class BoardDto {
 	private String creatorId;
 	
 	private String createdDatetime;
-
-	private String updaterId;
 	
 	private String updatedDatetime;
 

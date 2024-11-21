@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,6 +29,7 @@ public class Member {
     @Column
     private String username;
 
+    @Size(min = 4, message = "비밀번호는 최소 4자리 이상이어야 합니다.")
     @Column(nullable = false)
     private String password;
 
@@ -35,9 +38,23 @@ public class Member {
 
     private LocalDateTime regdate;
 
-    public void changePassword(String oldPassword, String newPassword) {
-        if (!password.equals(oldPassword))
-            throw new WrongIdPasswordException();
-        this.password = newPassword;
+    // 비밀번호 변경 메소드
+    public void changePassword(String oldPassword, String newPassword, PasswordEncoder passwordEncoder) {
+        // 최소 4자리 이상으로 지정
+        if (newPassword.length() < 4) {
+            throw new WrongIdPasswordException("비밀번호는 최소 4자리 이상이어야 합니다.");
+        }
+
+        if (!passwordEncoder.matches(oldPassword, this.password)) {
+            throw new WrongIdPasswordException("기존 비밀번호가 틀렸습니다.");
+        }
+
+        // 새 비밀번호 암호화
+        this.password = passwordEncoder.encode(newPassword);
+    }
+
+    // 비밀번호 비교 메소드
+    public boolean matchPassword(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, this.password);
     }
 }

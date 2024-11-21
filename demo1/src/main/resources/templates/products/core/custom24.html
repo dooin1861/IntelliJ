@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRS Guitar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/core.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+<!-- 이미지 슬라이더 컨테이너 -->
+<div class="image-slider-container" id="imageSliderContainer">
+    <div class="custom24">
+        <p>CUSTOM 24</p>
+    </div>
+    <div class="image-slider" id="imageSlider">
+        <div class="slider-container">
+            <img src="/images/PRS.jpg" alt="cu 1">
+            <img src="/images/core/Custom24_2.jpg" alt="cu 2">
+            <img src="/images/core/Custom24_3.jpg" alt="cu 3">
+            <img src="/images/core/Custom24_4.jpg" alt="cu 4">
+            <img src="/images/core/Custom24_5.jpg" alt="cu 5">
+            <img src="/images/core/Custom24_6.jpg" alt="cu 6">
+        </div>
+    </div>
+    <button class="slider-button prev" id="prevButton">←</button>
+    <button class="slider-button next" id="nextButton">→</button>
+
+    <div class="text-container">
+        <div class="text-main">
+            <p>The One That Started It All</p>
+        </div>
+        <div class="text-sub">
+            <p>
+                The Custom 24 is the quintessential PRS guitar. This iconic instrument was<br>
+                the first model that Paul Reed Smith brought to the public at PRS Guitars’ first<br>
+                Winter NAMM show in 1985 and has been a top seller ever since. Played by<br>
+                internationally touring artists, gigging musicians, and aspiring players, the<br>
+                Custom 24 features PRS’s patented Gen III tremolo system and PRS 85/15<br>
+                pickups with volume and tone controls and a 5-way blade switch. 85/15<br>
+                pickups were personally designed by Paul Reed Smith to offer remarkable<br>
+                clarity and extended high and low end.
+            </p>
+            <p>
+                The Custom 24 is the original PRS. Since its introduction, it has offered a<br>
+                unique tonal option for serious players and defined PRS tone and playability.
+            </p>
+            <p>
+                For 2024, PRS Guitars is updating the tuning machines on many of our Core<br>
+                guitars. While, aesthetically, our new Wing buttons are designed to echo the<br>
+                12th fret bird wingspan design, they were first and foremost designed for<br>
+                tonal reasons all the way back in 1982. Because these buttons are lighter<br>
+                weight than their metal predecessors, they are subtracting less energy from<br>
+                the vibrating strings, thus helping the guitar ring longer and at a more musical<br>
+                note.
+            </p>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <iframe width="1600" height="900"
+                src="https://www.youtube.com/embed/Bzs6JI2BvFI"
+                frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+    </div>
+
+    <div class="featured-container">
+        <div class="featured-main">
+            <p>FEATURED SPECIFICATIONS</p>
+        </div>
+        <div class="featured-image">
+            <div class="col-3">
+                <img src="/images/core/featured1.jpg" alt="Featured 1">
+                <div class="featured-text">
+                    <p>PRS Patented Tremolo,
+                        <br>Gen III</p>
+                </div>
+                <div class="featured-text-sub">
+                    <p>Meticulous design delivering sonic fidelity, player ergonomics, and revolutionary tuning stability.</p>
+                </div>
+            </div>
+            <div class="col-3">
+                <img src="/images/core/featured2.jpg" alt="Featured 2">
+                <div class="featured-text">
+                    <p>PRS Phase III Locking
+                        <br>Tuners with Wing Buttons
+                </div>
+                <div class="featured-text-sub">
+                    <p>Modern locking technology with vintage elegance, these lightweight tuners promote tone transfer for a louder, more resonant instrument.</p>
+                </div>
+            </div>
+            <div class="col-3">
+                <img src="/images/core/featured3.jpg" alt="Featured 3">
+                <div class="featured-text">
+                    <p>PRS 85/15 Pickups</p>
+                </div>
+                <div class="featured-text-sub">
+                    <p>Uncovered pickups with remarkable clarity and extended high and low end, perfect for more modern applications.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="spec-container">
+        <div class="spec-main">
+            <p>SPECIFICATIONS</p>
+        </div>
+
+        <table>
+            <tr>
+                <th class="th1" colspan="2">BODY</th>
+            </tr>
+            <tr>
+                <th class="th2">Body Construction</th>
+                <th class="th2">Solidbody</th>
+            </tr>
+            <tr>
+                <th class="th3">Top Wood</th>
+                <th class="th3">Maple</th>
+            </tr>
+            <tr>
+                <th class="th2">Back Wood</th>
+                <th class="th2">Mahogany</th>
+            </tr>
+            <tr>
+                <th class="th3">Top Carve</th>
+                <th class="th3">Violin</th>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <th class="th1" colspan="2">NECK</th>
+            </tr>
+            <tr>
+                <th class="th2">Number of Frets</th>
+                <th class="th2">24</th>
+            </tr>
+            <tr>
+                <th class="th3">Scale Length</th>
+                <th class="th3">25"</th>
+            </tr>
+            <tr>
+                <th class="th2">Neck Wood</th>
+                <th class="th2">Mahogany</th>
+            </tr>
+            <tr>
+                <th class="th3">Neck Construction</th>
+                <th class="th3">One-Piece</th>
+            </tr>
+            <tr>
+                <th class="th2">Truss Rod</th>
+                <th class="th2">PRS Double-Acting</th>
+            </tr>
+            <tr>
+                <th class="th3">Neck Shape</th>
+                <th class="th3">Pattern Thin</th>
+            </tr>
+            <tr>
+                <th class="th2">Neck Depth at the 1/2 Fret</th>
+                <th class="th2">53/64"</th>
+            </tr>
+            <tr>
+                <th class="th3">Neck Depth at the 12 1/2 Fret</th>
+                <th class="th3">57/64"</th>
+            </tr>
+            <tr>
+                <th class="th2">Neck Width at the Nut</th>
+                <th class="th2">1 11/16"</th>
+            </tr>
+            <tr>
+                <th class="th3">Neck Width at the Body</th>
+                <th class="th3">2 1/4"</th>
+            </tr>
+            <tr>
+                <th class="th2">Fretboard Wood</th>
+                <th class="th2">Rosewood</th>
+            </tr>
+            <tr>
+                <th class="th3">Fretboard Radius</th>
+                <th class="th3">10"</th>
+            </tr>
+            <tr>
+                <th class="th2">Fretboard Inlay</th>
+                <th class="th2">Birds</th>
+            </tr>
+            <tr>
+                <th class="th3">Headstock Logo</th>
+                <th class="th3">Signature, Inlaid</th>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <th class="th1" colspan="2">Neck/Body Assembly</th>
+            </tr>
+            <tr>
+                <th class="th2">Neck/Body Assembly Type</th>
+                <th class="th2">Set</th>
+            </tr>
+
+            <tr>
+                <th class="th1" colspan="2">Finish</th>
+            </tr>
+            <tr>
+                <th class="th2">Finish Type</th>
+                <th class="th2">High-Gloss Nitro</th>
+            </tr>
+
+            <tr>
+                <th class="th1" colspan="2">Hardware</th>
+            </tr>
+            <tr>
+                <th class="th2">Bridge</th>
+                <th class="th2">PRS Patented Tremolo, Gen III</th>
+            </tr>
+            <tr>
+                <th class="th3">Hardware Type</th>
+                <th class="th3">Nickel</th>
+            </tr>
+            <tr>
+                <th class="th2">Nut</th>
+                <th class="th2">PRS</th>
+            </tr>
+            <tr>
+                <th class="th3">Truss Rod Cover</th>
+                <th class="th3">"Custom"</th>
+            </tr>
+
+            <tr>
+                <th class="th1" colspan="2">Electronics</th>
+            </tr>
+            <tr>
+                <th class="th2">Treble Pickup</th>
+                <th class="th2">85/15</th>
+            </tr>
+            <tr>
+                <th class="th3">Bass Pickup</th>
+                <th class="th3">85/15</th>
+            </tr>
+            <tr>
+                <th class="th2">Controls</th>
+                <th class="th2">Volume and Tone Control with 5-Way Blade Pickup Switch</th>
+            </tr>
+
+            <tr>
+                <th class="th1" colspan="2">Additional Info</th>
+            </tr>
+            <tr>
+                <th class="th2">Strings</th>
+                <th class="th2">PRS Signature 10-46</th>
+            </tr>
+            <tr>
+                <th class="th3">Tuning</th>
+                <th class="th3">Standard (6 String): E, A, D, G, B, E</th>
+            </tr>
+            <tr>
+                <th class="th2">Case</th>
+                <th class="th2">Hardshell Case</th>
+            </tr>
+            <tr>
+                <th class="th3">Options</th>
+                <th class="th3">10 Top with Hybrid Hardware</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="controls-container">
+        <div class="controls-main">
+            <p>CONTROLS</p>
+        </div>
+
+        <div class="controls-image">
+            <img src="/images/core/Controls1.jpg" alt="Controls 1">
+        </div>
+    </div>
+
+    <div class="guitarImage-container">
+        <div class="color-main">
+            <p>COLORS</p>
+        </div>
+
+        <div id="main-image-container">
+            <img id="main-image" src="/images/core/custom24_color_1.jpg" alt="Main Image" class="color-image">
+        </div>
+
+        <div id="colorText" class="color-text">
+            <p>Antique White Top (Opaque Top with Natural Back)</p>
+        </div>
+
+    </div>
+
+    <div class="color-image-container">
+        <img src="/images/core/custom24_color_1.jpg" class="color-image-color" alt="Image 1" onclick="showImage(1)">
+        <img src="/images/core/custom24_color_2.jpg" class="color-image-color" alt="Image 2" onclick="showImage(2)">
+        <img src="/images/core/custom24_color_3.jpg" class="color-image-color" alt="Image 3" onclick="showImage(3)">
+        <img src="/images/core/custom24_color_4.jpg" class="color-image-color" alt="Image 4" onclick="showImage(4)">
+        <img src="/images/core/custom24_color_5.jpg" class="color-image-color" alt="Image 5" onclick="showImage(5)">
+        <img src="/images/core/custom24_color_6.jpg" class="color-image-color" alt="Image 6" onclick="showImage(6)">
+        <img src="/images/core/custom24_color_7.jpg" class="color-image-color" alt="Image 7" onclick="showImage(7)">
+        <img src="/images/core/custom24_color_8.jpg" class="color-image-color" alt="Image 8" onclick="showImage(8)">
+        <img src="/images/core/custom24_color_9.jpg" class="color-image-color" alt="Image 9" onclick="showImage(9)">
+        <img src="/images/core/custom24_color_10.jpg" class="color-image-color" alt="Image 10" onclick="showImage(10)">
+        <img src="/images/core/custom24_color_11.jpg" class="color-image-color" alt="Image 11" onclick="showImage(11)">
+        <img src="/images/core/custom24_color_12.jpg" class="color-image-color" alt="Image 12" onclick="showImage(12)">
+        <img src="/images/core/custom24_color_13.jpg" class="color-image-color" alt="Image 13" onclick="showImage(13)">
+    </div>
+
+    <div class="accolades-container">
+        <div class="accolades-main">
+            <p>ACCOLADES</p>
+        </div>
+        <div class="accolades-text-main">
+            <div class="col-3">
+                <p>
+                    "The Custom 24 is my main guitar live and probably the one
+                    we’ve had in the rack the longest. It gives us that consistent
+                    tone we’re looking for and it’s a really nice looking guitar.”
+                    <div class="accolades-text-sub">
+                        <p>
+                            - Brad Delson, Linkin Park
+                        </p>
+                    </div>
+                </p>
+            </div>
+            <div class="col-3">
+                <p>"If you want to play a guitar that feels great, is very versatile
+                    and has an amazing tone, a Custom 24 fits that bill!”
+                <div class="accolades-text-sub">
+                    <p>
+                        - Orianthi
+                    </p>
+                </div>
+                </p>
+            </div>
+            <div class="col-3">
+                <p>"I’ve been playing PRS Custom 24’s since 1985 and they’ve
+                    been a workhorse on the road and in the studio.
+                    They play great, look and sound great and they’re dependable.
+                    The balance and weight from the neck to the body is perfect.”
+                <div class="accolades-text-sub">
+                    <p>
+                        - Tom Johnston, The Doobie Brothers
+                    </p>
+                </div>
+                </p>
+            </div>
+
+            <div class="col-3">
+                <p>
+                    “It’s like they were in my head when they designed the Custom 24…
+                    it’s everything I’ve EVER wanted out of a guitar.”
+                <div class="accolades-text-sub">
+                    <p>
+                        - Anthony Armstrong, RED
+                    </p>
+                </div>
+                </p>
+            </div>
+
+            <div class="col-3">
+                <p>
+                    “Looove my Custom 24, it looks great, it’s dependable,
+                    and is just overall a real joy to play.”
+                <div class="accolades-text-sub">
+                    <p>
+                        - Ryan Knight, The Black Dahlia Murder
+                    </p>
+                </div>
+                </p>
+            </div>
+
+            <div class="col-3">
+                <p>
+                    “I love my Custom 24 and take it to every gig.
+                    It sounds great, looks great, and has survived the road life so I really couldn't ask for a better guitar!”
+                <div class="accolades-text-sub">
+                    <p>
+                        - Cheska Zaide, A+ Dropoutss
+                    </p>
+                </div>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const slider = document.getElementById('imageSlider');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const slides = document.querySelectorAll('.image-slider img');
+    const slideCount = slides.length;
+    let currentIndex = 0;
+
+    // 슬라이드 이동 함수
+    function goToSlide(index) {
+        // 슬라이드를 무한으로 순환시키기 위해 현재 인덱스를 0~(슬라이드 개수-1)로 설정
+        currentIndex = (index + slideCount) % slideCount;
+        const offset = -currentIndex * 100;
+        slider.style.transform = `translateX(${offset}%)`;
+    }
+
+    // 이전 슬라이드로 이동
+    prevButton.addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+    });
+
+    // 다음 슬라이드로 이동
+    nextButton.addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+    });
+
+    // 페이지 로드시 첫 번째 슬라이드로 시작
+    goToSlide(currentIndex);
+
+    // 페이지 로드 시 기본 이미지 로드
+    document.addEventListener("DOMContentLoaded", function() {
+        // 첫 번째 이미지를 기본으로 보여줌
+        showImage(1);
+    });
+
+    // 이미지를 클릭할 때 호출되는 함수
+    function showImage(imageNumber) {
+        // 이미지 경로를 동적으로 설정
+        var imageSrc = "/images/core/custom24_color" + imageNumber + ".jpg";
+        var mainImage = document.getElementById("main-image");
+        mainImage.src = imageSrc;
+
+        // 각 이미지에 맞는 텍스트 설정
+        var colorText = document.getElementById("colorText");
+        var textContent = "";
+
+
+            switch (imageNumber) {
+            case 1:
+                textContent = "Antique White Top (Opaque Top with Natural Back)";
+                break;
+            case 2:
+                textContent = "Black Top (Opaque Top with Natural Back)";
+                break;
+            case 3:
+                textContent = "Black Gold Wraparound Burst";
+                break;
+            case 4:
+                textContent = "Carroll Blue";
+                break;
+            case 5:
+                textContent = "Charcoal";
+                break;
+            case 6:
+                textContent = "Charcoal Burst";
+                break;
+            case 7:
+                textContent = "Cobalt Smokeburst";
+                break;
+            case 8:
+                textContent = "Dark Cherry Burst";
+                break;
+            case 9:
+                textContent = "Faded Whale Blue";
+                break;
+            case 10:
+                textContent = "Fire Smokeburst";
+                break;
+            case 11:
+                textContent = "Gray Black";
+                break;
+            case 12:
+                textContent = "Purple Mist";
+                break;
+            case 13:
+                textContent = "Yellow Tiger";
+                break;
+        }
+
+        // 텍스트 업데이트
+        colorText.innerHTML = `<p>${textContent}</p>`;
+    }
+
+</script>
+
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+
+</body>
+</html>

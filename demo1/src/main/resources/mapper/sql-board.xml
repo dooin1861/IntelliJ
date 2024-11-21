@@ -7,6 +7,7 @@
 		<result property="boardIdx" column="board_idx"/>
 		<result property="title" column="title"/>
 		<result property="hitCnt" column="hit_cnt"/>
+		<result property="creatorId" column="creator_id"/>
 		<result property="createdDatetime" column="created_datetime"/>
 	</resultMap>
 
@@ -46,8 +47,8 @@
 			(
 				#{title}, 
 				#{contents}, 
-				NOW(), 
-				'admin'			
+				NOW(),
+				#{creatorId}
 			)
 		]]>
 	</insert>
@@ -86,7 +87,6 @@
 				title = #{title},
 				contents = #{contents},
 				updated_datetime = Now(),
-				updater_id = 'admin'
 			WHERE 
 				board_idx = #{boardIdx}
 		]]>
@@ -97,7 +97,6 @@
 			UPDATE t_board SET 
 				deleted_yn = 'Y',
 				updated_datetime = Now(),
-				updater_id = 'admin'
 			WHERE 
 				board_idx = #{boardIdx}
 		]]>

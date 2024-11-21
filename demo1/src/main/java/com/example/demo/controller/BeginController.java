@@ -1,39 +1,35 @@
 package com.example.demo.controller;
 
+import com.example.demo.member.service.UserDetailsEmail;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.stream.Collectors;
 
 @Controller
 public class BeginController {
 
     @GetMapping("/")
-    public String main1(@AuthenticationPrincipal User user, HttpSession session) {
-        if (user != null) {
-            session.setAttribute("username", user.getUsername()); // 로그인된 사용자의 이름을 모델에 추가
+    public String main1(@AuthenticationPrincipal UserDetailsEmail userDetailsEmail, HttpSession session) {
+        if (userDetailsEmail != null) {
+            session.setAttribute("username", userDetailsEmail.getUsername());
+            session.setAttribute("email", userDetailsEmail.getEmail());
+            String role = userDetailsEmail.getAuthorities().stream()
+                    .map(grantedAuthority -> grantedAuthority.getAuthority().replace("ROLE_", ""))
+                    .collect(Collectors.joining(", "));
+            session.setAttribute("role", role);
         } else {
-            session.setAttribute("username", "Guest"); // 로그인되지 않은 경우 null로 설정
+            session.setAttribute("username", "Guest");
+//            session.setAttribute("email", "");
+            session.setAttribute("role", "Guest");
         }
         return "main/main"; // 템플릿 이름
-    }
-
-    @GetMapping("/main/main2")
-    public String main2(@AuthenticationPrincipal User user, HttpSession session) {
-        if (user != null) {
-            session.setAttribute("username", user.getUsername()); // 로그인된 사용자의 이름을 모델에 추가
-        } else {
-            session.setAttribute("username", "Guest"); // 로그인되지 않은 경우 null로 설정
-        }
-        return "main/main2"; // 템플릿 이름
-    }
-
-
-    @GetMapping("/info/staff")
-    public void info() {
-
     }
 
     @GetMapping("/sample/login")
@@ -56,4 +52,9 @@ public class BeginController {
         return "main/main";
     }
 
+
+    @GetMapping("/profile/myPage")
+    public String myPage() {
+        return "profile/myPage";  // 마이 페이지로 이동
+    }
 }

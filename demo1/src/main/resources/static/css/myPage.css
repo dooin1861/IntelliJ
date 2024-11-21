@@ -1,0 +1,116 @@
+/* 전체 페이지 배경색과 텍스트 색상 설정 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212 !important; /* 어두운 배경 */
+    color: #ffffff; /* 텍스트 색상 */
+    margin: 0;
+    padding: 0;
+}
+
+/* 컨테이너 스타일: 중앙 정렬 및 여백 */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+/* 헤더 */
+.container h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+/* 프로필 사진 */
+.profile-picture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.profile-picture img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #007bff; /* 테두리 색상 */
+}
+
+.profile-picture h5 {
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 18px;
+    color: white; /* 텍스트 색상 */
+}
+
+/* 테이블 스타일 */
+.profile-info-table table {
+    width: 100%;
+    margin-top: 20px;
+    color: white; /* 텍스트 색상 */
+}
+
+.profile-info-table th,
+.profile-info-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #888;
+}
+
+.profile-info-table th {
+    background-color: #333;
+    color: #fff;
+}
+
+.profile-info-table td {
+    background-color: #222;
+    color: #fff;
+}
+
+/* 계정 설정 스타일 */
+.account-settings {
+    margin-top: 30px;
+}
+
+.account-settings h4 {
+    color: white;
+}
+
+.account-settings a {
+    color: #007bff; /* 링크 색상 */
+    text-decoration: none;
+}
+
+.account-settings a:hover {
+    color: #0056b3; /* 링크 hover 색상 */
+}
+
+/* 로그아웃 버튼 스타일 */
+.logout a {
+    padding: 10px 20px;
+    background-color: #dc3545; /* 빨간색 배경 */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.logout a:hover {
+    background-color: #c82333; /* hover 시 배경 색상 */
+}
+
+/* 반응형 디자인: 모바일 화면에서의 스타일 */
+@media screen and (max-width: 768px) {
+    .profile-info-table th, .profile-info-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+}

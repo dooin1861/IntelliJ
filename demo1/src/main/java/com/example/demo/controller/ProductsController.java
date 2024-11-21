@@ -18,9 +18,19 @@ public class ProductsController {
         return "products/core";
     }
 
+    @GetMapping("/bolt-on")
+    public String boltOn() {
+        return "products/bolt-on";
+    }
+
     @GetMapping("/s2")
     public String S2() {
         return "products/s2";
     }
 
+    @GetMapping("/se")
+    public String se() { return "products/se"; }
+
+    @GetMapping("/core/custom24")
+    public String custom24() { return "products/core/custom24"; }
 }

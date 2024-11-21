@@ -58,13 +58,18 @@ public class SecurityConfig {
                 .antMatchers("/support/**").permitAll()
                 .antMatchers("/main/**").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("/sample/admin").hasRole("ADMIN")
                 .antMatchers("/error/**").permitAll()
-                .antMatchers("/board/**").permitAll()
+                .antMatchers("/board/openBoardList.do").permitAll()
+                .antMatchers("/board/openBoardDetail.do").permitAll()
+                .antMatchers("/board/updateBoard.do").authenticated()
+                .antMatchers("/board/deleteBoard.do").authenticated()
+                .antMatchers("/main/myPage").permitAll()
 
                 .anyRequest().authenticated();
 
-        http.csrf().disable();
+        http.csrf()
+                .ignoringAntMatchers("/board/**/comments");
+
         http.formLogin()
                 .loginPage("/sample/login") // 로그인 페이지 URL 설정
                 .loginProcessingUrl("/login") // 로그인 처리를 위한 URL
@@ -80,8 +85,11 @@ public class SecurityConfig {
                 .permitAll();
 
         http.exceptionHandling().accessDeniedPage("/sample/accessDenied");
-        http.csrf().disable();
+
+
 
         return http.build();
+
+
     }
 }

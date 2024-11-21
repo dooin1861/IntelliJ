@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -16,7 +17,10 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Autowired
 	private BoardMapper boardMapper;
-	
+
+	@Autowired
+	CommentService commentService;
+
 	@Autowired
 	private FileUtils fileUtils;
 	
@@ -52,9 +56,11 @@ public class BoardServiceImpl implements BoardService{
 		boardMapper.updateBoard(board);
 	}
 
+	@Transactional
 	@Override
 	public void deleteBoard(int boardIdx) throws Exception {
 		boardMapper.deleteBoard(boardIdx);
+//		commentService.deleteComment(boardIdx);
 	}
 	
 	@Override
