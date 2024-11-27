@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws MemberNotFoundException {
         log.info("==========>사용자: " + username);
 //        UserDetails user = User.withUsername("user123")
 //                .password(passwordEncoder().encode("1234"))
@@ -43,7 +43,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Optional<Member> member = memberRepository.findByEmail(username);
         if (!member.isPresent()) {
-            throw new UsernameNotFoundException(username);
+            log.error("회원 조회 실패: {} (이메일 없음)", username);
+            throw new MemberNotFoundException("사용자를 찾을 수 없습니다: " + username);
         }
         return toUserDetailsEmail(member.get());
 

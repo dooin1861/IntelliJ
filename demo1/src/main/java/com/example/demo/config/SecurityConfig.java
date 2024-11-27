@@ -41,9 +41,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.info("---------filterChain-------------");
+
+        http.csrf()
+                .ignoringAntMatchers("/board/**/comments")
+                .ignoringAntMatchers("/board/updateBoard.do")
+                .ignoringAntMatchers("/board/deleteBoard.do")
+                .ignoringAntMatchers("/board/insertBoard.do");
+
         http.authorizeHttpRequests()
 //                .antMatchers("/**").denyAll()
 //                .antMatchers("/h2-console/**").permitAll()
+
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/sample/**").permitAll()
@@ -59,20 +67,14 @@ public class SecurityConfig {
                 .antMatchers("/main/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/error/**").permitAll()
-                .antMatchers("/board/openBoardList.do").permitAll()
-                .antMatchers("/board/openBoardDetail.do").permitAll()
-                .antMatchers("/board/updateBoard.do").authenticated()
-                .antMatchers("/board/deleteBoard.do").authenticated()
+                .antMatchers("/board/**").permitAll()
                 .antMatchers("/main/myPage").permitAll()
-
                 .anyRequest().authenticated();
-
-        http.csrf()
-                .ignoringAntMatchers("/board/**/comments");
 
         http.formLogin()
                 .loginPage("/sample/login") // 로그인 페이지 URL 설정
                 .loginProcessingUrl("/login") // 로그인 처리를 위한 URL
+                .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/", true) // 로그인 성공 후 리다이렉트 URL 설정
                 .permitAll()
                 .and()
@@ -86,10 +88,6 @@ public class SecurityConfig {
 
         http.exceptionHandling().accessDeniedPage("/sample/accessDenied");
 
-
-
         return http.build();
-
-
     }
 }

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.forum.dto.BoardDto;
 import com.example.demo.forum.dto.BoardFileDto;
+import com.example.demo.forum.entity.Board;
 import com.example.demo.forum.entity.Comment;
 import com.example.demo.forum.service.BoardService;
 import com.example.demo.forum.service.CommentService;
@@ -17,8 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.net.URLEncoder;
-import java.nio.file.AccessDeniedException;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -62,17 +61,22 @@ public class BoardController {
 		return "/board/boardList";
 	}
 
-	@RequestMapping("/board/openBoardWrite.do")
+	@GetMapping("/board/openBoardWrite.do")
 	public String openBoardWrite(Model model) throws Exception {
 		model.addAttribute("board", new BoardDto());  // board 객체를 추가
 		return "board/boardWrite";
 	}
 
-	@RequestMapping("/board/insertBoard.do")
+	@PostMapping("/board/insertBoard.do")
 	public String insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		log.info("Authentication: {}", authentication);
+		log.info("Is Authenticated: {}", authentication.isAuthenticated());
+
 		String username = authentication.getName();
+		log.info("Username: {}", username);
 
 		if (username != null) {
 			board.setCreatorId(username);  // creator_id로 사용
@@ -92,22 +96,46 @@ public class BoardController {
 		List<Comment> comments = commentService.getCommentsByBoardIdx(boardIdx);
 		mv.addObject("comments", comments);  // 댓글 추가
 
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		mv.addObject("currentUserName", currentUserName);
+
 		System.out.println(board);
 		return mv;
 	}
 
 	@RequestMapping("/board/updateBoard.do")
-	public String updateBoard(BoardDto board) throws Exception{
+	public String updateBoard(BoardDto board, RedirectAttributes redirectAttributes) throws Exception{
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+
+		BoardDto boardDto = boardService.selectBoardDetail(board.getBoardIdx());
+		if (!currentUserName.equals(boardDto.getCreatorId())) {
+			redirectAttributes.addFlashAttribute("message", "본인이 작성한 글만 수정할 수 있습니다.");
+			redirectAttributes.addFlashAttribute("board", boardDto);
+			redirectAttributes.addFlashAttribute("currentUserName", currentUserName);
+			return "redirect:/board/openBoardDetail.do?boardIdx=" + board.getBoardIdx();
+		}
+
 		boardService.updateBoard(board);
 		return "redirect:/board/openBoardList.do";
 	}
-	
-	@RequestMapping("board/deleteBoard.do")
-	public String deleteBoard(int boardIdx) throws Exception{
+
+	@RequestMapping("/board/deleteBoard.do")
+	public String deleteBoard(int boardIdx, RedirectAttributes redirectAttributes) throws Exception{
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+
+		BoardDto boardDto = boardService.selectBoardDetail(boardIdx);
+		if (!currentUserName.equals(boardDto.getCreatorId())) {
+			redirectAttributes.addFlashAttribute("message", "본인이 작성한 글만 삭제할 수 있습니다.");
+			return "redirect:/board/openBoardDetail.do?boardIdx=" + boardIdx;
+		}
+
 		boardService.deleteBoard(boardIdx);
 		return "redirect:/board/openBoardList.do";
 	}
-	
+
 	@RequestMapping("/board/downloadBoardFile.do")
 	public void downloadBoardFile(@RequestParam int idx, @RequestParam int boardIdx, HttpServletResponse response) throws Exception{
 		String currentPath = Paths.get("").toAbsolutePath().toString();

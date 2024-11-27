@@ -86,7 +86,7 @@
 			UPDATE t_board SET 
 				title = #{title},
 				contents = #{contents},
-				updated_datetime = Now(),
+				updated_datetime = Now()
 			WHERE 
 				board_idx = #{boardIdx}
 		]]>
@@ -96,7 +96,7 @@
 		<![CDATA[
 			UPDATE t_board SET 
 				deleted_yn = 'Y',
-				updated_datetime = Now(),
+				updated_datetime = Now()
 			WHERE 
 				board_idx = #{boardIdx}
 		]]>

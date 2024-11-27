@@ -16,19 +16,6 @@
     margin-right: 5px;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Noto Sans KR', sans-serif;
-    color: white; /* 모든 글자 색을 흰색으로 설정 */
-}
-
-a {
-    color: white;  /* 링크 색상을 흰색으로 설정 */
-    text-decoration: none;  /* 링크에 밑줄 제거 */
-    padding: 10px 20px;
-}
 
 a:hover {
     color: white;  /* hover 시에도 흰색으로 유지 */

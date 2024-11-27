@@ -5,20 +5,27 @@
             <div class="header--top">
                 <ul>
                     <li class="material--li"><span class="material-symbols-outlined">account_circle</span>
-                        <span th:text="${session.username != null && session.username != 'Guest' ? session.username + '&nbsp;님, 로그인 중' : 'Guest로 로그인 중'}"></span></li>
+                        <span th:text="${session.username != null && session.username != 'Guest' ? session.username + '&nbsp;님, 로그인 중' : 'Guest'}"></span></li>
                     <li style="margin: 0 15px;">ㅣ
                     <li class="material--li"><span style="color: #9BD2EC;" class="material-symbols-outlined">logout</span>
 
                     <li>
-                        <a th:href="@{${session.username == null || session.username == 'Guest' ? 'sample/login' : 'sample/logout'}}">
-                        <span th:text="${session.username == null || session.username == 'Guest' ? '로그인' : '로그아웃'}"></span>
+                    <!-- 로그인 상태일 때만 Logout 버튼 보이기 -->
+                    <form th:if="${session.username != 'Guest'}" action="/sample/logout" method="post" style="display:inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <a href="#" onclick="this.closest('form').submit();">로그아웃</a>
+                    </form>
+
+                        <!-- 비로그인 상태일 때만 Login 버튼 보이기 -->
+                        <a th:if="${session.username == null || session.username == 'Guest'}" th:href="@{/sample/login}">
+                            <span>로그인</span>
                         </a>
                     </li>
 
                 </ul>
             </div>
 
-            <nav class="main--menu">
+            <div class="main--menu">
                 <a href="/"><img class="logo" alt="" src="/images/logo.png"></a>
                 <!-- userRole에 따라 메뉴 다르게 표시 -->
                 <ul>
@@ -30,7 +37,7 @@
                     <li><a href="/dealers">Dealers</a>
                     <li><a href="/board/openBoardList.do?page=0">Forum</a></li>
                 </ul>
-            </nav>
+            </div>
         </header>
     </div>
 </html>

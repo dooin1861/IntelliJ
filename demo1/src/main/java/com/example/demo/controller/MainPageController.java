@@ -1,19 +1,15 @@
 package com.example.demo.controller;
 
 import com.example.demo.member.service.UserDetailsEmail;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.stream.Collectors;
 
 @Controller
-public class BeginController {
+public class MainPageController {
 
     @GetMapping("/")
     public String main1(@AuthenticationPrincipal UserDetailsEmail userDetailsEmail, HttpSession session) {
