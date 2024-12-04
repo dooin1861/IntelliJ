@@ -139,18 +139,41 @@ function showMessage(message) {
         `;
     } else {
         const isSentByMe = message.originalSender === username;
-        console.log('메시지 비교:', {
-            originalSender: message.originalSender,
-            currentUsername: username,
-            isSentByMe: isSentByMe
-        });
-
         messageElement.classList.add(isSentByMe ? 'sent' : 'received');
 
         let time = message.sendTime ? formatTime(message.sendTime) : formatTime(new Date());
 
+        // 이미지 URL 처리
+        let content = message.content;
+
+        // 구글 이미지 URL에서 실제 이미지 URL 추출
+        if (content.includes('google.com/imgres')) {
+            try {
+                const url = new URL(content);
+                const imgUrl = url.searchParams.get('imgurl');
+                if (imgUrl) {
+                    content = `<img src="${imgUrl}" 
+                        alt="채팅 이미지" 
+                        referrerpolicy="no-referrer" 
+                        onerror="this.style.display='none'" 
+                        style="max-width: 300px; max-height: 300px;">`;
+                }
+            } catch (e) {
+                console.error('URL 파싱 에러:', e);
+            }
+        } else {
+            // 기존 이미지 URL 처리
+            content = content.replace(/(https?:\/\/[^\s]+(?:jpg|jpeg|png|gif|webp|svg)(?:[^\s]*)?)/gi, (match) => {
+                return `<img src="${match}" 
+                    alt="채팅 이미지" 
+                    referrerpolicy="no-referrer" 
+                    onerror="this.style.display='none'" 
+                    style="max-width: 300px; max-height: 300px;">`;
+            });
+        }
+
         messageElement.innerHTML = `
-            <div class="message-content">${message.content}</div>
+            <div class="message-content">${content}</div>
             <div class="message-info">
                 <span class="sender">${message.sender}</span>
                 <span class="time">${time}</span>
