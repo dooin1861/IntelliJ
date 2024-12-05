@@ -274,3 +274,106 @@ body {
 img[src$=".gif"] {
     image-rendering: pixelated;
 }
+
+/*챗 헤더 부분*/
+.chat-header {
+    background: #2196f3;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-left h1 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.participants-count {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.current-user {
+    color: white;
+    font-weight: 500;
+}
+
+.participants-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.participants-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.participants-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.participants-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    max-width: 80%;
+}
+
+.participants-list {
+    margin: 15px 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.participant-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.participant-item:last-child {
+    border-bottom: none;
+}
+
+.close-btn {
+    width: 100%;
+    padding: 10px;
+    background: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+    background: #1976d2;
+}

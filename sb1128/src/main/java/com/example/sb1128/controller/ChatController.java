@@ -2,6 +2,7 @@ package com.example.sb1128.controller;
 
 import com.example.sb1128.chat.dto.ChatDto;
 import com.example.sb1128.chat.entity.ChatEntity;
+import com.example.sb1128.chat.eventListener.WebSocketEventListener;
 import com.example.sb1128.chat.repository.ChatRepository;
 import com.example.sb1128.member.entity.MemberEntity;
 import com.example.sb1128.member.repository.MemberRepository;
@@ -28,6 +29,7 @@ public class ChatController {
     private final ChatRepository chatRepository;
     private final MemberRepository memberRepository;  // 사용자 정보 조회용
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final WebSocketEventListener webSocketEventListener;
 
     @GetMapping("/")
     public String chat() {
@@ -94,7 +96,17 @@ public class ChatController {
     @SendTo("/topic/public")
     public ChatDto join(@Payload ChatDto chatDto, SimpMessageHeaderAccessor headerAccessor) {
         log.info("입장 메시지 수신: {}", chatDto);
+
+        // 세션에 사용자 이름 저장
         headerAccessor.getSessionAttributes().put("username", chatDto.getSender());
+
+        // 사용자를 참가자 목록에 추가
+        MemberEntity member = memberRepository.findByUsername(chatDto.getSender())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다: " + chatDto.getSender()));
+
+        // WebSocketEventListener의 connectedUsers에 추가
+        webSocketEventListener.addConnectedUser(chatDto.getSender());
+
         return createAndSaveEventMessage(chatDto.getSender(), ChatDto.MessageType.JOIN, "님이 입장하셨습니다.");
     }
 

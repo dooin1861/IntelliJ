@@ -61,20 +61,28 @@ function connect() {
             showMessage(JSON.parse(message.body));
         });
 
-        // 채팅 기록은 첫 연결시에만 불러오기
+        // 참가자 목록 구독 추가
+        stompClient.subscribe('/topic/participants', function(message) {
+            console.log('참가자 목록 수신:', message.body);
+            const participantInfo = JSON.parse(message.body);
+            updateParticipantsList(participantInfo);
+        });
+
+        // 채팅 기록과 입장 처리
         if (isFirstConnect) {
             loadChatHistory();
 
-            // 입장 메시지도 첫 연결시에만 전송
-            setTimeout(() => {
-                let joinMessage = {
-                    sender: username,
-                    type: 'JOIN',
-                    content: username + '님이 입장하셨습니다.'
-                };
-                console.log('입장 메시지 전송:', joinMessage);
-                stompClient.send("/app/chat.join", {}, JSON.stringify(joinMessage));
-            }, 500);
+            // 입장 메시지 전송
+            let joinMessage = {
+                sender: username,
+                type: 'JOIN',
+                content: username + '님이 입장하셨습니다.',
+                originalSender: username  // 추가
+            };
+
+            // 서버에 사용자 입장 알림
+            stompClient.send("/app/chat.join", {}, JSON.stringify(joinMessage));
+            console.log('입장 메시지 전송:', joinMessage);
 
             isFirstConnect = false;
         }
@@ -198,3 +206,40 @@ function formatTime(dateStr) {
 
     return `${month}월 ${day}일 ${ampm} ${displayHours}:${minutes}`;
 }
+
+// 새로운 함수 추가 (파일 끝부분)
+function updateParticipantsList(participantInfo) {
+    const participantCount = document.getElementById('participantCount');
+    const participantsList = document.getElementById('participantsList');
+
+    participantCount.textContent = participantInfo.count;
+
+    participantsList.innerHTML = '';
+    participantInfo.users.forEach(user => {
+        const userElement = document.createElement('div');
+        userElement.classList.add('participant-item');
+        userElement.textContent = user;
+        participantsList.appendChild(userElement);
+    });
+}
+
+// 모달 관련 코드 추가
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('participantsModal');
+    const showBtn = document.getElementById('showParticipants');
+    const closeBtn = document.querySelector('.close-btn');
+
+    showBtn.onclick = function() {
+        modal.style.display = 'block';
+    }
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+});
