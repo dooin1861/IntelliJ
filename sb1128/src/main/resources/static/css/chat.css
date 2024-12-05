@@ -270,3 +270,82 @@ body {
         height: calc(100vh - 20px);
     }
 }
+
+
+
+
+/* 채팅 참여자 */
+/* 헤더 스타일 수정 */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.participants-count {
+    color: white;
+    font-size: 0.9rem;
+}
+
+.participants-btn {
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+/* 참여자 모달 스타일 */
+.participants-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.participants-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 300px;
+    max-width: 400px;
+}
+
+.participants-content h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#participantsList {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.participant-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.participant-item:last-child {
+    border-bottom: none;
+}
+
+.close-btn {
+    width: 100%;
+    padding: 8px;
+    background: #2196f3;
+    color: white;
+    border-radius: 4px;
+}

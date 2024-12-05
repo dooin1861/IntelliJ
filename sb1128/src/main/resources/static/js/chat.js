@@ -1,6 +1,7 @@
 let stompClient = null;
 let username;
 let isFirstConnect = true;
+let participants = new Set();
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('페이지 로드됨');
@@ -18,11 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Enter 키 이벤트
     document.getElementById('message').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
-            // Shift + Enter인 경우 줄바꿈
             if (e.shiftKey) {
                 return; // 기본 줄바꿈 동작 허용
             } else {
-                // Enter만 누른 경우 메시지 전송
                 e.preventDefault(); // 기본 줄바꿈 동작 방지
                 sendMessage();
             }
@@ -38,10 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 content: username + '님이 퇴장하셨습니다.'
             };
 
-            // 동기적으로 메시지 전송
             navigator.sendBeacon("/app/chat.leave/notify", JSON.stringify(leaveMessage));
-
-            // WebSocket 연결 해제
             stompClient.disconnect();
         }
     });
@@ -52,20 +48,31 @@ function connect() {
     let socket = new SockJS('/ws-chat');
     stompClient = Stomp.over(socket);
 
+    participants.clear();
+
     stompClient.connect({}, function(frame) {
         console.log('WebSocket 연결 성공:', frame);
 
         // 구독 설정
         stompClient.subscribe('/topic/public', function(message) {
             console.log('메시지 수신:', message.body);
-            showMessage(JSON.parse(message.body));
+            const messageData = JSON.parse(message.body);
+
+            // 참여자 관리
+            if (messageData.type === 'JOIN') {
+                participants.add(messageData.sender); // sender로 변경
+            } else if (messageData.type === 'LEAVE') {
+                participants.delete(messageData.sender); // sender로 변경
+            }
+            updateParticipantCount();
+            updateParticipantsList();
+
+            showMessage(messageData);
         });
 
-        // 채팅 기록은 첫 연결시에만 불러오기
         if (isFirstConnect) {
             loadChatHistory();
 
-            // 입장 메시지도 첫 연결시에만 전송
             setTimeout(() => {
                 let joinMessage = {
                     sender: username,
@@ -85,11 +92,65 @@ function connect() {
     });
 }
 
+function updateParticipantCount() {
+    const countElement = document.getElementById('participantCount');
+    if (countElement) {
+        countElement.textContent = participants.size;
+    }
+}
+
+function updateParticipantsList() {
+    const list = document.getElementById('participantsList');
+    if (!list) return;
+
+    list.innerHTML = '';
+    participants.forEach(participant => {
+        const item = document.createElement('div');
+        item.className = 'participant-item';
+        item.textContent = participant;
+        list.appendChild(item);
+    });
+}
+
+let modalInitialized = false;
+
+function initializeModal() {
+    if (modalInitialized) return;
+
+    const modal = document.getElementById('participantsModal');
+    const showBtn = document.getElementById('showParticipants');
+    const closeBtn = modal?.querySelector('.close-btn');
+
+    if (!modal || !showBtn || !closeBtn) return;
+
+    showBtn.onclick = function() {
+        modal.style.display = 'block';
+        updateParticipantsList();
+    }
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    modalInitialized = true;
+}
+
+document.addEventListener('DOMContentLoaded', initializeModal);
+
 function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
     isFirstConnect = true;
+    participants.clear();
+    updateParticipantCount();
+    updateParticipantsList();
     console.log("연결 해제됨");
 }
 
@@ -138,15 +199,13 @@ function showMessage(message) {
             <div class="message-content">${message.content}</div>
         `;
     } else {
-        const isSentByMe = message.originalSender === username;
+        const isSentByMe = message.originalSender === username; // sender로 변경
         messageElement.classList.add(isSentByMe ? 'sent' : 'received');
 
         let time = message.sendTime ? formatTime(message.sendTime) : formatTime(new Date());
 
-        // 이미지 URL 처리
         let content = message.content;
 
-        // 구글 이미지 URL에서 실제 이미지 URL 추출
         if (content.includes('google.com/imgres')) {
             try {
                 const url = new URL(content);
@@ -162,7 +221,6 @@ function showMessage(message) {
                 console.error('URL 파싱 에러:', e);
             }
         } else {
-            // 기존 이미지 URL 처리
             content = content.replace(/(https?:\/\/[^\s]+(?:jpg|jpeg|png|gif|webp|svg)(?:[^\s]*)?)/gi, (match) => {
                 return `<img src="${match}" 
                     alt="채팅 이미지" 
