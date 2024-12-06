@@ -164,7 +164,7 @@ function showMessage(message) {
                         alt="채팅 이미지" 
                         referrerpolicy="no-referrer" 
                         onerror="this.style.display='none'" 
-                        style="max-width: 300px; max-height: 300px;">`;
+                        style="max-width: 400px; max-height: 400px;">`;
                 }
             } catch (e) {
                 console.error('URL 파싱 에러:', e);
@@ -177,7 +177,7 @@ function showMessage(message) {
                 alt="채팅 이미지" 
                 referrerpolicy="no-referrer" 
                 onerror="this.style.display='none'" 
-                style="max-width: 300px; max-height: 300px;">`;
+                style="max-width: 400px; max-height: 400px;">`;
             });
         }
 
